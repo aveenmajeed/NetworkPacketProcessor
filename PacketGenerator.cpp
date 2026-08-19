@@ -9,6 +9,7 @@ Packet PacketGenerator::generatePacket(int packetId)
     std::uniform_int_distribution<int> priorityDist(1, 3);
     std::uniform_int_distribution<int> sizeDist(64, 1500);
     std::uniform_int_distribution<int> ipDist(1, 254);
+    std::uniform_int_distribution<int> networkDist(1, 4);
 
     int choice = dist(gen);
     int priority = priorityDist(gen);
@@ -17,7 +18,26 @@ Packet PacketGenerator::generatePacket(int packetId)
     int sourceNum = ipDist(gen);
     int destinationNum = ipDist(gen);
     std::string sourceIp = "192.168.1." + std::to_string(sourceNum);
-    std::string destinationIp = "10.0.0." + std::to_string(destinationNum);
+    std::string destinationIp;
+    int networkChoice = networkDist(gen);
+    
+    if (networkChoice == 1)
+    {
+        destinationIp = "10.0.0." + std::to_string(destinationNum);
+    }
+    else if (networkChoice == 2)
+    {
+        destinationIp = "20.0.0." + std::to_string(destinationNum);
+    }
+    else if (networkChoice == 3)
+    {
+        destinationIp = "30.0.0." + std::to_string(destinationNum);
+    }
+    else
+    {
+        destinationIp = "192.168.1." + std::to_string(destinationNum);
+    }
+
 
     std::string protocol;
 
