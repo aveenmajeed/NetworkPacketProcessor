@@ -2,20 +2,53 @@
 
 void PacketQueue::addPacket(Packet packet)
 {
-    packets.push(packet);
+    if (packet.getPriority() == 3)
+    {
+        highPriority.push(packet);
+    }
+    else if (packet.getPriority() == 2)
+    {
+        normalPriority.push(packet);
+    }
+    else
+    {
+        lowPriority.push(packet);
+    }
 }
 
 Packet PacketQueue::getNextPacket()
 {
-    return packets.front();
+    if (!highPriority.empty())
+    {
+        return highPriority.front();
+    }
+    else if (!normalPriority.empty())
+    {
+        return normalPriority.front();
+    }
+    else
+    {
+        return lowPriority.front();
+    }
 }
 
 void PacketQueue::removePacket()
 {
-    packets.pop();
+    if (!highPriority.empty())
+    {
+        highPriority.pop();
+    }
+    else if (!normalPriority.empty())
+    {
+        normalPriority.pop();
+    }
+    else
+    {
+        lowPriority.pop();
+    }
 }
 
 bool PacketQueue::isEmpty() const
 {
-    return packets.empty();
+    return highPriority.empty() && normalPriority.empty() && lowPriority.empty();
 }

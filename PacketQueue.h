@@ -6,7 +6,10 @@
 class PacketQueue
 {
 private:
-    std::queue<Packet> packets;
+    std::queue<Packet> highPriority;
+    std::queue<Packet> normalPriority;
+    std::queue<Packet> lowPriority;
+
 
 public:
     void addPacket(Packet packet);
