@@ -14,6 +14,8 @@ class Packet{
 
     public:
 
+    Packet();
+
     Packet(int packetId, std::string sourceIp,std::string destinationIp,
     std::string protocol, int priority, int size);
 

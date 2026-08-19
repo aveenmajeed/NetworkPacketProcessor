@@ -5,4 +5,6 @@ class PacketGenerator
 {
 public:
     Packet generatePacket(int packetId);
+
+
 };

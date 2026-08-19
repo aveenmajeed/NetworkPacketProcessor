@@ -2,6 +2,8 @@
 
 void PacketQueue::addPacket(Packet packet)
 {
+    std::lock_guard<std::mutex> lock(queueMutex);
+
     if (packet.getPriority() == 3)
     {
         highPriority.push(packet);
@@ -16,39 +18,39 @@ void PacketQueue::addPacket(Packet packet)
     }
 }
 
-Packet PacketQueue::getNextPacket()
+bool PacketQueue::getNextPacket(Packet& packet)
 {
+    std::lock_guard<std::mutex> lock(queueMutex);
+
     if (!highPriority.empty())
     {
-        return highPriority.front();
+        packet = highPriority.front();
+        highPriority.pop();
+        return true;
     }
     else if (!normalPriority.empty())
     {
-        return normalPriority.front();
+        packet = normalPriority.front();
+        normalPriority.pop();
+        return true;
     }
-    else
+    else if (!lowPriority.empty())
     {
-        return lowPriority.front();
+        packet = lowPriority.front();
+        lowPriority.pop();
+        return true;
     }
+
+    return false;
 }
 
-void PacketQueue::removePacket()
-{
-    if (!highPriority.empty())
-    {
-        highPriority.pop();
-    }
-    else if (!normalPriority.empty())
-    {
-        normalPriority.pop();
-    }
-    else
-    {
-        lowPriority.pop();
-    }
-}
+
 
 bool PacketQueue::isEmpty() const
 {
-    return highPriority.empty() && normalPriority.empty() && lowPriority.empty();
+    std::lock_guard<std::mutex> lock(queueMutex);
+
+    return highPriority.empty() &&
+           normalPriority.empty() &&
+           lowPriority.empty();
 }
