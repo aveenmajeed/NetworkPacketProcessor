@@ -12,15 +12,13 @@ Packet::Packet()
 
 
 
-Packet::Packet(int packetId, std::string sourceIp, std::string destinationIp,
-               std::string protocol, int priority, int size){
+Packet::Packet(int packetId, std::string sourceIp, std::string destinationIp,std::string protocol, int priority, int size){
     this->packetId = packetId;
-this->sourceIp = sourceIp;
-this->destinationIp = destinationIp;
-this->protocol = protocol;
-this->priority = priority;
-this->size = size;
-
+    this->sourceIp = sourceIp;
+    this->destinationIp = destinationIp;
+    this->protocol = protocol;
+    this->priority = priority;
+    this->size = size;
 }
 
 
